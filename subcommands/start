@@ -14,6 +14,7 @@ posteio_start_func() {
     CONTAINER_ID=$(docker run -d --name="dokku.posteio" --restart=unless-stopped \
       -p 25:25 -p 110:110 -p 143:143 -p 587:587 -p 993:993 -p 995:995 -e HTTPS=OFF \
       -v /etc/localtime:/etc/localtime:ro -v "${POSTEIO_ROOT}/data:/data" \
+      -e "DISABLE_CLAMAV=TRUE" \
       -h "${DOMAIN_NAME}" "${POSTEIO_IMAGE}:${POSTEIO_IMAGE_VERSION}")
 
     CONTAINER_IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' "${CONTAINER_ID}")
